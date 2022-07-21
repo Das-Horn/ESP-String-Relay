@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use mongodb::{Client, bson::{doc, Document}, options::ClientOptions};
 use mongodb::bson;
 use chrono::prelude::*;
+use dotenv::dotenv;
 
 #[tokio::main]
 async fn main() {
@@ -88,10 +89,15 @@ async fn create_server() {
 /// 
 /// A Result<Client, mongodb::error::Error>
 async fn send_data_to_server(data: Document) -> Result<Client, mongodb::error::Error> {
+    dotenv().ok();
+    use std::env;
     let e: mongodb::error::Error;
 
+    let server_address = env::var("MONGO_ADDRESS").unwrap_or("none".to_string());
+    println!("{}", server_address);
+
     // Parse a connection string into an options struct.
-    let mut client_options = ClientOptions::parse("mongodb://nuc.ie:27017").await?;
+    let mut client_options = ClientOptions::parse(server_address).await?;
 
     // Manually set an option.
     client_options.app_name = Some("Sensor Relay".to_string());
