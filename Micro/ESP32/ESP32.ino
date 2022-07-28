@@ -12,7 +12,7 @@
 const char* ssid     = "your-ssid";
 const char* password = "your-password";
 
-const char* host = "nuc.ie:9098";
+const char* host = "your url";
 
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
